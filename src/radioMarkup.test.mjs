@@ -172,18 +172,23 @@ test('no unchanged Realtime tool definition drifts silently', () => {
     'set_panel_open',
     'get_current_view_state',
     'fly_to_location',
+    // MilBench Live rebrand: display strings only — fly_to_location was
+    // already touched upstream; set_layer_visibility / set_visual_style
+    // descriptions dropped the previous product name.
+    'set_layer_visibility',
+    'set_visual_style',
     'select_nearest_aircraft',
     'set_map_stack',
   ]);
   const unchanged = realtimeTools()
     .filter((tool) => !TOUCHED.has(tool.name))
     .sort((a, b) => a.name.localeCompare(b.name));
-  assert.equal(unchanged.length, 21);
+  assert.equal(unchanged.length, 19);
   const digest = createHash('sha256')
     .update(JSON.stringify(unchanged))
     .digest('hex')
     .slice(0, 16);
-  assert.equal(digest, '802ed694b8887b88', 'an unchanged Realtime tool definition drifted');
+  assert.equal(digest, 'fb4b385e791d1729', 'an unchanged Realtime tool definition drifted');
 });
 
 test('Radio volume and mission speed share the Sharpen slider visual language', () => {

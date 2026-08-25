@@ -7330,6 +7330,57 @@ function normalizeAisTimestamp(value) {
  * plugins, configures the dev server host/port, and exposes selected
  * API keys to the client as import.meta.env defines.
  */
+
+/**
+ * Vite plugin: MilBench engine bridge.
+ *
+ * Forwards /api/milbench/* to the local Python engine (default
+ * http://127.0.0.1:8770 — override with MILBENCH_ENGINE_URL). GET passthrough
+ * for scenarios/recordings/recording/<id>/commanders/leaderboard; POST
+ * passthrough for /run. If the engine is down, replies {available:false} so
+ * the client layer can degrade to its bundled recorded sample.
+ */
+function milbenchEngineProxy() {
+  return {
+    name: 'milbench-proxy',
+    configureServer(server) {
+      server.middlewares.use('/api/milbench', async (req, res) => {
+        // Connect strips the mount prefix, so req.url is '/scenarios' etc.;
+        // the engine routes under '/api/*'.
+        const base = process.env.MILBENCH_ENGINE_URL || 'http://127.0.0.1:8770';
+        const upstream = `${base}/api${req.url}`;
+        try {
+          const init = {
+            method: req.method,
+            headers: { 'User-Agent': 'milbench-live-engine-proxy/1.0' },
+            signal: AbortSignal.timeout(15000),
+          };
+          if (req.method === 'POST') {
+            const chunks = [];
+            for await (const chunk of req) chunks.push(chunk);
+            const body = Buffer.concat(chunks);
+            init.body = body;
+            // Engine CSRF gate: same-origin or X-MilBench marker; we are a
+            // server-to-server caller, so assert the marker and drop the
+            // browser's cross-port Origin.
+            init.headers['Content-Type'] = 'application/json';
+            init.headers['Content-Length'] = String(body.length);
+            init.headers['X-MilBench'] = '1';
+          }
+          const r = await fetch(upstream, init);
+          const text = await r.text();
+          res.writeHead(r.status, { 'Content-Type': r.headers.get('content-type') || 'application/json', 'Cache-Control': 'no-store' });
+          res.end(text);
+        } catch (e) {
+          console.error('[MilBench Engine Proxy]', e.message);
+          res.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' });
+          res.end(JSON.stringify({ available: false }));
+        }
+      });
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => {
   // Load only this checkout's dotenv files. Shell/Keychain values still win,
   // and no sibling workspace is consulted implicitly.
@@ -7357,6 +7408,7 @@ export default defineConfig(({ mode }) => {
       gbfsProxy(),
       adsbLolProxy(),
       aisLiveProxy(),
+      milbenchEngineProxy(),
       trackBackfillProxies(),
       openAiRealtimeProxy(),
       googlePlacesContextProxy(),

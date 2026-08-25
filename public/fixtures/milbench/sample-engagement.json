@@ -1,0 +1,181 @@
+{
+  "scenario_id": "knife_fight",
+  "title": "Knife Fight \u2014 Close-Quarters Datum",
+  "briefing": "Both boats are already inside sonar range and near firing range. Solutions firm fast and mistakes are fatal. Whoever hesitates on a firm solution dies with a full weapons load.",
+  "blue": {
+    "name": "Los Angeles-class submarine",
+    "platform_id": "ssn-688-class",
+    "max_speed_kn": 24.8,
+    "torpedoes": 4
+  },
+  "red": {
+    "name": "Akula-class submarine",
+    "platform_id": "akula-class-submarine",
+    "max_speed_kn": 35.0,
+    "torpedoes": 4
+  },
+  "outcome": {
+    "winner": "RED",
+    "reason": "enemy destroyed"
+  },
+  "frames": [
+    {
+      "tick": 0,
+      "blue": {
+        "lat": 0.0,
+        "lon": 0.0,
+        "heading": 30.0,
+        "speed": 6.0,
+        "torpedoes": 4,
+        "alive": true
+      },
+      "red": {
+        "lat": 0.1154,
+        "lon": 0.0666,
+        "heading": 210.0,
+        "speed": 6.0,
+        "torpedoes": 4,
+        "alive": true
+      },
+      "blue_contacts": [
+        {
+          "id": "S1",
+          "bearing_deg": 30.0,
+          "range_nm": 8.0,
+          "confidence": 0.28
+        }
+      ],
+      "red_contacts": [
+        {
+          "id": "S1",
+          "bearing_deg": 210.0,
+          "range_nm": 8.0,
+          "confidence": 0.28
+        }
+      ],
+      "blue_intent": "",
+      "red_intent": "",
+      "events": []
+    },
+    {
+      "tick": 1,
+      "blue": {
+        "lat": 0.0,
+        "lon": 0.0,
+        "heading": 30.0,
+        "speed": 6.0,
+        "torpedoes": 3,
+        "alive": true
+      },
+      "red": {
+        "lat": 0.1154,
+        "lon": 0.0666,
+        "heading": 210.0,
+        "speed": 6.0,
+        "torpedoes": 3,
+        "alive": true
+      },
+      "blue_contacts": [
+        {
+          "id": "S1",
+          "bearing_deg": 30.0,
+          "range_nm": 8.0,
+          "confidence": 0.56
+        }
+      ],
+      "red_contacts": [
+        {
+          "id": "S1",
+          "bearing_deg": 210.0,
+          "range_nm": 8.0,
+          "confidence": 0.56
+        }
+      ],
+      "blue_intent": "scripted doctrine",
+      "red_intent": "scripted doctrine",
+      "events": [
+        "BLUE: TORPEDO FIRED \u2014 running (position now compromised)",
+        "BLUE: TORPEDO IN THE WATER \u2014 bearing 030, EVADE",
+        "RED: TORPEDO IN THE WATER \u2014 bearing 210, EVADE",
+        "RED: TORPEDO FIRED \u2014 running (position now compromised)"
+      ]
+    },
+    {
+      "tick": 2,
+      "blue": {
+        "lat": 0.0,
+        "lon": 0.0,
+        "heading": 30.0,
+        "speed": 6.0,
+        "torpedoes": 2,
+        "alive": true
+      },
+      "red": {
+        "lat": 0.1154,
+        "lon": 0.0666,
+        "heading": 210.0,
+        "speed": 6.0,
+        "torpedoes": 2,
+        "alive": true
+      },
+      "blue_contacts": [
+        {
+          "id": "S1",
+          "bearing_deg": 30.0,
+          "range_nm": 8.0,
+          "confidence": 0.84
+        }
+      ],
+      "red_contacts": [
+        {
+          "id": "S1",
+          "bearing_deg": 210.0,
+          "range_nm": 8.0,
+          "confidence": 0.84
+        }
+      ],
+      "blue_intent": "scripted doctrine",
+      "red_intent": "scripted doctrine",
+      "events": [
+        "BLUE: TORPEDO FIRED \u2014 running (position now compromised)",
+        "BLUE: TORPEDO IN THE WATER \u2014 bearing 030, EVADE",
+        "BLUE: TORPEDO MISS \u2014 passed astern",
+        "RED: TORPEDO IN THE WATER \u2014 bearing 210, EVADE",
+        "RED: TORPEDO FIRED \u2014 running (position now compromised)",
+        "RED: TORPEDO MISS \u2014 passed astern"
+      ]
+    },
+    {
+      "tick": 3,
+      "blue": {
+        "lat": 0.0,
+        "lon": 0.0,
+        "heading": 30.0,
+        "speed": 6.0,
+        "torpedoes": 1,
+        "alive": false
+      },
+      "red": {
+        "lat": 0.1154,
+        "lon": 0.0666,
+        "heading": 210.0,
+        "speed": 6.0,
+        "torpedoes": 1,
+        "alive": true
+      },
+      "blue_contacts": [],
+      "red_contacts": [],
+      "blue_intent": "scripted doctrine",
+      "red_intent": "scripted doctrine",
+      "events": [
+        "BLUE: TORPEDO FIRED \u2014 running (position now compromised)",
+        "BLUE: TORPEDO IN THE WATER \u2014 bearing 030, EVADE",
+        "BLUE: TORPEDO MISS \u2014 passed astern",
+        "BLUE: TORPEDO IMPACT \u2014 own boat lost",
+        "RED: TORPEDO IN THE WATER \u2014 bearing 210, EVADE",
+        "RED: TORPEDO FIRED \u2014 running (position now compromised)",
+        "RED: TORPEDO IMPACT \u2014 enemy destroyed"
+      ]
+    }
+  ]
+}

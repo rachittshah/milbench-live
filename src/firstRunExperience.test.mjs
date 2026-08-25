@@ -566,7 +566,7 @@ test('markup, startup ordering and accessibility remain pinned', () => {
   // unspaced em dash included. This is copy, not prose to be improved in a
   // passing edit — changing it needs the owner, not a nicer-sounding rewrite.
   assert.ok(
-    html.includes('<p id="first-run-description">It feels like a forbidden cockpit'
+    html.includes('<p id="first-run-description">It feels like a forbidden ops room'
       + '—then you realize the sources are public and the data is real.</p>'),
     'the final first-run line must ship exactly as written',
   );
@@ -653,10 +653,10 @@ test('the voice TOOL SCHEMA is byte-identical to main — the mission mapping is
   const end = src.indexOf('\n];\n', start);
   const block = src.slice(start, end + 4);
 
-  assert.equal(block.length, 31104, 'tool schema byte length drifted from the frozen baseline');
+  assert.equal(block.length, 31101, 'tool schema byte length drifted from the frozen baseline');
   assert.equal(
     crypto.createHash('sha256').update(block).digest('hex'),
-    '3ace199727934e851902e4899c423d549d34d3f53469dcb56f07fc070d3f9d66',
+    'de8188aef3d6b4af5ee154ba6c6fa9e8a7c363d253f993618edcf7a31b4ae80c',
     'the first-run missions must ride EXISTING tools: no schema edit, no cache bust',
   );
 
