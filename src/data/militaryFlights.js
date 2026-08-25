@@ -345,7 +345,7 @@ function _contextSubjectMetadata(icao24) {
   return {
     id: icao24,
     layerId: 'military',
-    layerName: 'Military Flights',
+    layerName: 'Military Air',
     source: 'adsb.lol',
     label,
     latitude: described.latitude,
@@ -2601,7 +2601,7 @@ export function mapAnalystRecord(icao24, info) {
  */
 const militaryFlightsLayer = {
   id: 'military',
-  name: 'Military Flights',
+  name: 'Military Air',
   icon: '🎖️',
   source: 'adsb.lol',
   /** @type {number} Polling interval in ms between API fetches */

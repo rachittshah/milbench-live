@@ -419,7 +419,7 @@ function _contextSubjectMetadata(icao24) {
   return {
     id: icao24,
     layerId: 'flights',
-    layerName: 'Live Flights',
+    layerName: 'Air Contacts',
     source: 'OpenSky Network',
     label: _contactLabel(icao24, _flightData.get(icao24)),
     latitude: described.latitude,
@@ -3885,7 +3885,7 @@ function _focusEvidenceSnapshot() {
  */
 const flightsLayer = {
   id: 'flights',
-  name: 'Live Flights',
+  name: 'Air Contacts',
   icon: '✈️',
   source: 'OpenSky Network',
   // Browser-harness seam: isolates synthetic display-floor scenarios without

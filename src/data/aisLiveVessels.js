@@ -337,7 +337,7 @@ const shipIconCache = new Map();
 
 const aisLiveVesselsLayer = {
   id: 'ais-live-vessels',
-  name: 'Live AIS Vessels',
+  name: 'Surface Contacts',
   icon: '◭',
   source: 'AISStream',
   updateInterval: REFRESH_MS,
@@ -1734,7 +1734,7 @@ function registerSelectedContext(record) {
     return registerEntityContext(record, {
       id: `ais-${record.mmsi}`,
       layerId: 'ais-live-vessels',
-      layerName: 'Live AIS Vessels',
+      layerName: 'Surface Contacts',
       source: 'AISStream',
       label: displayVesselName(record),
       latitude: record.lat,
