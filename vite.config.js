@@ -1,5 +1,5 @@
 /**
- * Vite configuration for God's Eye View — a cinematic geospatial app.
+ * Vite configuration for MilBench Live — a cinematic geospatial app.
  *
  * Registers the dev-server proxy middlewares that bypass CORS and add
  * caching/auth for upstream APIs:
@@ -746,7 +746,7 @@ const RADIO_RESPONSE_MAX_BYTES = 4 * 1024 * 1024;
 const RADIO_DIRECTORY_LIMIT = 750;
 const RADIO_CATALOG_MIN_SUCCESSFUL_QUERIES = 5;
 const RADIO_CATALOG_HEALTHY_MIN_STATIONS = Math.ceil(RADIO_DIRECTORY_LIMIT / 2);
-const RADIO_USER_AGENT = 'GodsEyeView/1.0 (Radio Browser directory client)';
+const RADIO_USER_AGENT = 'MilbenchLive/1.0 (Radio Browser directory client)';
 const RADIO_UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
 const RADIO_FALLBACK_MIRRORS = Object.freeze([
   'https://de1.api.radio-browser.info',
@@ -1528,7 +1528,7 @@ function celestrakProxy() {
       signal: AbortSignal.timeout(20000),
       // CelesTrak 403s bulk groups (e.g. `active`) unless the request carries a
       // descriptive User-Agent with a contact point.
-      headers: { 'User-Agent': 'gods-eye-view-celestrak-proxy/1.0 (+https://github.com/bilawalsidhu/gods-eye-view)' },
+      headers: { 'User-Agent': 'milbench-live-celestrak-proxy/1.0 (+https://github.com/rachittshah/milbench-live)' },
     });
     if (!res.ok) throw new Error(`HTTP ${res.status}`);
     const body = await res.text();
@@ -2521,7 +2521,7 @@ async function fetchOverpassPayload(body, maxResponseBytes = OVERPASS_MAX_RESPON
         method: 'POST',
         headers: {
           'Content-Type': 'application/x-www-form-urlencoded',
-          'User-Agent': 'gods-eye-view-overpass-proxy/1.0',
+          'User-Agent': 'milbench-live-overpass-proxy/1.0',
         },
         body,
         signal: controller.signal,
@@ -2764,7 +2764,7 @@ function overpassProxy() {
           try {
             const upstreamRes = await fetch(upstream, {
               signal: controller.signal,
-              headers: { 'User-Agent': 'gods-eye-view/dev (local)' },
+              headers: { 'User-Agent': 'milbench-live/dev (local)' },
             });
             if (!upstreamRes.ok) return fail('no route found');
             const ctype = upstreamRes.headers.get('content-type') || '';
@@ -2826,7 +2826,7 @@ async function fetchAdsbLolPointFallback(req) {
         {
           headers: {
             Accept: 'application/json',
-            'User-Agent': 'gods-eye-view-adsblol-regional-fallback/1.0',
+            'User-Agent': 'milbench-live-adsblol-regional-fallback/1.0',
           },
           signal: controller.signal,
         },
@@ -3306,7 +3306,7 @@ function gbfsProxy() {
               method: 'GET',
               headers: {
                 Accept: 'application/json',
-                'User-Agent': 'gods-eye-view-gbfs-proxy/1.0',
+                'User-Agent': 'milbench-live-gbfs-proxy/1.0',
               },
               signal: controller.signal,
             });
@@ -4382,7 +4382,7 @@ export async function fetchCctvImageFromUpstream(url, {
   }, timeoutMs);
   try {
     const upstream = await fetchImpl(url, {
-      headers: { 'User-Agent': 'gods-eye-view-cctv-proxy/1.0' },
+      headers: { 'User-Agent': 'milbench-live-cctv-proxy/1.0' },
       signal: controller.signal,
     });
     const contentType = upstream.headers.get('content-type') || '';
@@ -4472,7 +4472,7 @@ function cctvProxy() {
       sv.searchParams.set('key', streetViewKey);
 
       const svResp = await fetch(sv.toString(), {
-        headers: { 'User-Agent': 'gods-eye-view-cctv-proxy/1.0' },
+        headers: { 'User-Agent': 'milbench-live-cctv-proxy/1.0' },
         signal: AbortSignal.timeout(CCTV_FRAME_FETCH_TIMEOUT_MS),
       });
       const svType = svResp.headers.get('content-type') || '';
@@ -4559,7 +4559,7 @@ function cctvProxy() {
             }
 
             try {
-              const upstreamHeaders = { 'User-Agent': 'gods-eye-view-cctv-proxy/1.0' };
+              const upstreamHeaders = { 'User-Agent': 'milbench-live-cctv-proxy/1.0' };
               const requestRange = req.headers?.range;
               if (requestRange) upstreamHeaders.Range = requestRange;
               const upstream = await fetch(mediaUrl, {
@@ -4724,7 +4724,7 @@ function adsbLolProxy() {
             return;
           }
           const upstream = await fetch('https://api.adsb.lol/v2/mil', {
-            headers: { 'User-Agent': 'gods-eye-view-adsblol-proxy/1.0' },
+            headers: { 'User-Agent': 'milbench-live-adsblol-proxy/1.0' },
           });
           const body = await upstream.text();
           if (upstream.ok) {
@@ -4990,7 +4990,7 @@ function openAiRealtimeProxy() {
           body: JSON.stringify({
             model: process.env.OPENAI_HUD_SUMMARY_MODEL || OPENAI_HUD_SUMMARY_MODEL_DEFAULT,
             instructions: [
-              "Write one concise intelligence-HUD summary for God's Eye View.",
+              "Write one concise intelligence-HUD summary for MilBench Live.",
               'Use only the supplied place, street, nearby-place, and enabled-layer text labels.',
               'Prefer the clearest named place and include a relevant enabled layer only when useful.',
               'Do not infer from coordinates or invent a place.',
@@ -5114,7 +5114,7 @@ function openAiRealtimeProxy() {
             output: { voice },
           },
           instructions: [
-            "You are GEV Voice Control, a concise voice controller for a Cesium geospatial app called God's Eye View.",
+            "You are MilBench Live Voice Control, a concise voice controller for a Cesium geospatial app called MilBench Live.",
             'Have a natural spoken conversation with the user while the mic session is active.',
             'Do not require a wake phrase. Treat direct commands like "zoom into London" or "open datacenters" as GEV control requests.',
             'Only control the app by calling the provided tools. Never invent tool names or arguments.',
@@ -5535,7 +5535,7 @@ const GEV_REALTIME_TOOLS = [
   {
     type: 'function',
     name: 'fly_to_location',
-    description: "Fly the God's Eye View camera to a known city, geocoded country/region/city/landmark, or explicit WGS84 coordinate. Countries/cities frame the whole place; landmarks/buildings use close framing.",
+    description: "Fly the MilBench Live camera to a known city, geocoded country/region/city/landmark, or explicit WGS84 coordinate. Countries/cities frame the whole place; landmarks/buildings use close framing.",
     parameters: {
       type: 'object',
       additionalProperties: false,
@@ -5632,7 +5632,7 @@ const GEV_REALTIME_TOOLS = [
   {
     type: 'function',
     name: 'set_layer_visibility',
-    description: "Enable or disable one registered God's Eye View data layer.",
+    description: "Enable or disable one registered MilBench Live data layer.",
     parameters: {
       type: 'object',
       additionalProperties: false,
@@ -5756,7 +5756,7 @@ const GEV_REALTIME_TOOLS = [
   {
     type: 'function',
     name: 'set_visual_style',
-    description: "Set the active God's Eye View visual filter/style.",
+    description: "Set the active MilBench Live visual filter/style.",
     parameters: {
       type: 'object',
       additionalProperties: false,
@@ -7031,8 +7031,8 @@ function fetchRegionalPlace(point) {
     });
     const payload = await fetchRegionalJson(`https://nominatim.openstreetmap.org/reverse?${params}`, {
       headers: {
-        'User-Agent': 'GodsEyeView/0.1 (+https://github.com/bilawalsidhu/gods-eye-view)',
-        Referer: 'https://github.com/bilawalsidhu/gods-eye-view',
+        'User-Agent': 'MilbenchLive/1.0 (+https://github.com/rachittshah/milbench-live)',
+        Referer: 'https://github.com/rachittshah/milbench-live',
       },
     });
     return normalizeRegionalPlace(payload);
@@ -7052,7 +7052,7 @@ async function fetchRegionalNews(place) {
   });
   try {
     const xml = await fetchRegionalText(`https://news.google.com/rss/search?${rssParams}`, {
-      headers: { 'User-Agent': 'GodsEyeView/0.1' },
+      headers: { 'User-Agent': 'MilbenchLive/1.0' },
       timeoutMs: 12_000,
     });
     const articles = normalizeRssArticles(xml, 5);
@@ -7068,7 +7068,7 @@ async function fetchRegionalNews(place) {
   });
   try {
     const payload = await fetchRegionalJson(`https://api.gdeltproject.org/api/v2/doc/doc?${params}`, {
-      headers: { 'User-Agent': 'GodsEyeView/0.1' },
+      headers: { 'User-Agent': 'MilbenchLive/1.0' },
       timeoutMs: 12_000,
     });
     const articles = normalizeRegionalArticles(payload, 5);
